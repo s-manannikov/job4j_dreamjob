@@ -14,6 +14,7 @@ public class Store {
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
     private final static AtomicInteger POST_ID = new AtomicInteger(4);
+    private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(4);
 
     private Store() {
         posts.put(1, new Post(1, "Junior Java Job", "junior description", LocalDateTime.now()));
@@ -36,8 +37,13 @@ public class Store {
         return candidates.values();
     }
 
-    public void save(Post post) {
+    public void savePost(Post post) {
         post.setId(POST_ID.incrementAndGet());
         posts.put(post.getId(), post);
+    }
+
+    public void saveCandidate(Candidate candidate) {
+        candidate.setId(CANDIDATE_ID.incrementAndGet());
+        candidates.put(candidate.getId(), candidate);
     }
 }
