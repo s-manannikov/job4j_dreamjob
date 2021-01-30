@@ -1,7 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="ru.job4j.store.Store" %>
-<%@ page import="ru.job4j.model.Post" %>
-<%@ page import="java.util.Collection" %>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -28,28 +27,26 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Вакансии
+                Кандидаты
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Названия</th>
+                        <th scope="col">Имена</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <% for (Post post : (Collection<Post>) request.getAttribute("posts")) { %>
+                    <c:forEach items="${candidates}" var="candidate">
                     <tr>
                         <td>
-                            <a href="<%=request.getContextPath()%>/post/edit.jsp?id=<%=post.getId()%>">
+                            <a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
                                 <i class="fa fa-edit mr-3"></i>
                             </a>
-                            <%=post.getName()%>
+                            <c:out value="${candidate.name}"/>
                         </td>
-                        <td><%= post.getDescription() %></td>
-                        <td><%= post.getCreated() %></td>
                     </tr>
-                    <% } %>
+                    </c:forEach>
                     </tbody>
                 </table>
             </div>
