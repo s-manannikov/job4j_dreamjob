@@ -11,6 +11,9 @@ public class Candidate {
         this.name = name;
     }
 
+    public Candidate() {
+    }
+
     public int getId() {
         return id;
     }
@@ -42,5 +45,13 @@ public class Candidate {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Candidate{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + '}';
     }
 }

@@ -21,6 +21,9 @@ public class Post {
         this.name = name;
     }
 
+    public Post() {
+    }
+
     public int getId() {
         return id;
     }
