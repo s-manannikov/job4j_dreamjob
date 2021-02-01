@@ -1,7 +1,11 @@
 package ru.job4j.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.job4j.model.Candidate;
+import ru.job4j.model.Item;
 import ru.job4j.model.Post;
 
 import java.io.BufferedReader;
@@ -16,6 +20,7 @@ import java.util.Properties;
 
 public class PsqlStore implements Store {
     private final BasicDataSource pool = new BasicDataSource();
+    private static final Logger LOG = LoggerFactory.getLogger(PsqlStore.class.getName());
 
     private PsqlStore() {
         Properties cfg = new Properties();
@@ -58,7 +63,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return posts;
     }
@@ -75,7 +80,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return candidates;
     }
@@ -89,6 +94,7 @@ public class PsqlStore implements Store {
         }
     }
 
+    @Override
     public void saveCandidate(Candidate candidate) {
         if (candidate.getId() == 0) {
             createCandidate(candidate);
@@ -111,7 +117,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return post;
     }
@@ -130,7 +136,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return candidate;
     }
@@ -143,62 +149,46 @@ public class PsqlStore implements Store {
             ps.setInt(2, post.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
     private void updateCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement(
+             PreparedStatement ps = cn.prepareStatement(
                      "update candidate set name = ? where id = ?")) {
             ps.setString(1, candidate.getName());
             ps.setInt(2, candidate.getId());
             ps.execute();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
     @Override
     public Post findPostById(int id) {
-        Post post = new Post();
-        try (Connection cn = pool.getConnection();
-             PreparedStatement statement = cn.prepareStatement(
-                "select * from post where id = ?"
-        )) {
-            statement.setInt(1, id);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    post.setId(resultSet.getInt("id"));
-                    post.setName(resultSet.getString("name"));
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return post.getId() != 0 ? post : null;
+        return (Post) find("select * from post where id = ?", new Post(), id);
     }
 
     public Candidate findCandidateById(int id) {
-        Candidate candidate = new Candidate();
+        return (Candidate) find("select * from candidate where id = ?", new Candidate(), id);
+    }
+
+    private Item find(String query, Item item, int id) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement statement = cn.prepareStatement(
-                     "select * from candidate where id = ?"
-             )) {
+             PreparedStatement statement = cn.prepareStatement(query)) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    candidate.setId(resultSet.getInt("id"));
-                    candidate.setName(resultSet.getString("name"));
+                if (resultSet.next()) {
+                    item.setId(resultSet.getInt("id"));
+                    item.setName(resultSet.getString("name"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
-        return candidate.getId() != 0 ? candidate : null;
+        return item.getId() != 0 ? item : null;
     }
 }
