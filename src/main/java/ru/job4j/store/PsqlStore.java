@@ -5,7 +5,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.model.Candidate;
-import ru.job4j.model.Item;
 import ru.job4j.model.Post;
 
 import java.io.BufferedReader;
@@ -94,7 +93,6 @@ public class PsqlStore implements Store {
         }
     }
 
-    @Override
     public void saveCandidate(Candidate candidate) {
         if (candidate.getId() == 0) {
             createCandidate(candidate);
@@ -167,28 +165,44 @@ public class PsqlStore implements Store {
 
     @Override
     public Post findPostById(int id) {
-        return (Post) find("select * from post where id = ?", new Post(), id);
-    }
-
-    public Candidate findCandidateById(int id) {
-        return (Candidate) find("select * from candidate where id = ?", new Candidate(), id);
-    }
-
-    private Item find(String query, Item item, int id) {
+        Post post = new Post();
         try (Connection cn = pool.getConnection();
-             PreparedStatement statement = cn.prepareStatement(query)) {
+             PreparedStatement statement = cn.prepareStatement(
+                "select * from post where id = ?"
+        )) {
             statement.setInt(1, id);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    item.setId(resultSet.getInt("id"));
-                    item.setName(resultSet.getString("name"));
+                    post.setId(resultSet.getInt("id"));
+                    post.setName(resultSet.getString("name"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
+            LOG.error("Post not found", e);
         }
-        return item.getId() != 0 ? item : null;
+        return post.getId() != 0 ? post : null;
+    }
+
+    public Candidate findCandidateById(int id) {
+        Candidate candidate = new Candidate();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement = cn.prepareStatement(
+                     "select * from candidate where id = ?"
+             )) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    candidate.setId(resultSet.getInt("id"));
+                    candidate.setName(resultSet.getString("name"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            LOG.error("Candidate not found", e);
+        }
+        return candidate.getId() != 0 ? candidate : null;
     }
 }

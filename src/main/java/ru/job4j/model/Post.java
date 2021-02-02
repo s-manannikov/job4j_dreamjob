@@ -3,7 +3,7 @@ package ru.job4j.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Post extends Item {
+public class Post {
     private int id;
     private String name;
     private String description;

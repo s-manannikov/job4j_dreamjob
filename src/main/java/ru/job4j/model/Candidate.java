@@ -2,7 +2,7 @@ package ru.job4j.model;
 
 import java.util.Objects;
 
-public class Candidate extends Item {
+public class Candidate {
     private int id;
     private String name;
 
