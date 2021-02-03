@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="ru.job4j.store.PsqlStore" %>
 <%@ page import="ru.job4j.model.Candidate" %>
-<%@ page import="ru.job4j.store.PsqlStore" %>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -61,7 +61,14 @@
                         <label>Имя</label>
                         <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
                     </div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    Фото
+                    <div>
+                        <input type="file" name="file">
+                    </div>
+                    <br>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                    </div>
                 </form>
             </div>
         </div>
