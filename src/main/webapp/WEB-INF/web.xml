@@ -32,4 +32,40 @@
         <url-pattern>/index.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UploadServlet</servlet-name>
+        <servlet-class>ru.job4j.servlet.UploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UploadServlet</servlet-name>
+        <url-pattern>/upload</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DownloadServlet</servlet-name>
+        <servlet-class>ru.job4j.servlet.DownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DownloadServlet</servlet-name>
+        <url-pattern>/download</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteCandidate</servlet-name>
+        <servlet-class>ru.job4j.servlet.DeleteCandidateServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteCandidate</servlet-name>
+        <url-pattern>/cdelete</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeletePost</servlet-name>
+        <servlet-class>ru.job4j.servlet.DeletePostServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeletePost</servlet-name>
+        <url-pattern>/pdelete</url-pattern>
+    </servlet-mapping>
+
 </web-app>

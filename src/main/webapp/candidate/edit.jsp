@@ -67,6 +67,9 @@
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <% if (id != null) { %>
+                        <a href="${pageContext.request.contextPath}/cdelete?id=<%=candidate.getId()%>" class="btn btn-danger">Удалить</a>
+                        <% } %>
                     </div>
                 </form>
             </div>

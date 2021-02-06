@@ -16,6 +16,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public class CandidateServlet extends HttpServlet {
 
@@ -41,13 +42,18 @@ public class CandidateServlet extends HttpServlet {
                 folder.mkdir();
             }
             for (FileItem item : items) {
-                if (!item.isFormField()) {
-                    File file = new File(folder + File.separator + item.getName());
+                if (!item.isFormField() && !item.getName().isEmpty()) {
+                    String photoName = UUID.randomUUID() + item.getName();
+                    File file = new File(folder + File.separator + photoName);
                     try (FileOutputStream out = new FileOutputStream(file)) {
                         out.write(item.getInputStream().readAllBytes());
                     }
+                    candidate.setPhotoId(photoName);
                 } else {
-                    candidate.setName(item.toString());
+                    if (item.getFieldName().equals("name")) {
+                        candidate.setName(item.getString());
+                        candidate.setPhotoId("default.png");
+                    }
                 }
             }
         } catch (FileUploadException e) {

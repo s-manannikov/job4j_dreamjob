@@ -60,7 +60,12 @@
                         <label>Название</label>
                         <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
                     </div>
+                    <div class="form-group">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <% if (id != null) { %>
+                    <a href="${pageContext.request.contextPath}/pdelete?id=<%=post.getId()%>" class="btn btn-danger">Удалить</a>
+                    <% } %>
+                    </div>
                 </form>
             </div>
         </div>

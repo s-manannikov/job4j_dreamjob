@@ -56,7 +56,16 @@
                     </thead>
                     <tbody>
                     <c:forEach items="${candidates}" var="candidate">
-                    <tr>
+                    <tr class="row">
+                        <td>
+                            <a href="<c:url value='/download?name=${candidate.photoId}'/>">
+                                <img src='<c:url value="/download?name=${candidate.photoId}"/>'
+                                     width="100px"
+                                     height="100px"
+                                     alt="${candidate.name}"
+                                     title="${candidate.name}"/>
+                            </a>
+                        </td>
                         <td>
                             <a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
                                 <i class="fa fa-edit mr-3"></i>

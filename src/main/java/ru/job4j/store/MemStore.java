@@ -64,4 +64,16 @@ public class MemStore implements Store {
     public Candidate findCandidateById(int id) {
         return candidates.get(id);
     }
+
+    public void deleteCandidate(int id) {
+        if (findCandidateById(id) != null) {
+            candidates.remove(id);
+        }
+    }
+
+    public void deletePost(int id) {
+        if (findPostById(id) != null) {
+            posts.remove(id);
+        }
+    }
 }
