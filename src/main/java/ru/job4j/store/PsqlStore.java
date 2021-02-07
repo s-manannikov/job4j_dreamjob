@@ -281,13 +281,13 @@ public class PsqlStore implements Store {
         }
     }
 
-    public User findUserById(int id) {
+    public User findUserByEmail(String email) {
         User user = new User();
         try (Connection cn = pool.getConnection();
              PreparedStatement statement = cn.prepareStatement(
-                     "select * from users where id = ?"
+                     "select * from users where email = ?"
              )) {
-            statement.setInt(1, id);
+            statement.setString(1, email);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     user.setId(resultSet.getInt("id"));

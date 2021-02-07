@@ -33,13 +33,19 @@
                     <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Добавить вакансию</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp"> <c:out value="${user.name}"/> | Выйти</a>
+                    <%if (request.getSession().getAttribute("user") == null) {%>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">
+                        Войти
+                            <%} else {%>
+                        <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Выйти
+                            <% } %>
+                        </a>
                 </li>
             </ul>
         </div>

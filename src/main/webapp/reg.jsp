@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="ru.job4j.store.PsqlStore" %>
-<%@ page import="ru.job4j.model.Post" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
@@ -24,59 +23,44 @@
 </head>
 <body>
 <div class="container pt-3">
+
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Добавить вакансию</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
             </li>
-            <li class="nav-item">
-                <%if (request.getSession().getAttribute("user") == null) {%>
-                <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">
-                    Войти
-                        <%} else {%>
-                    <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Выйти
-                        <% } %>
-                    </a>
-            </li>
         </ul>
     </div>
-<%
-    String id = request.getParameter("id");
-    Post post = new Post(0, "");
-    if (id != null) {
-        post = PsqlStore.instOf().findPostById(Integer.parseInt(id));
-    }
-%>
+
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                <% if (id == null) { %>
-                Новая вакансия.
-                <% } else { %>
-                Редактирование вакансии.
-                <% } %>
+                Регистрация
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
+                <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
-                        <label>Название</label>
-                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                        <label>Имя</label>
+                        <input type="text" class="form-control" name="name">
                     </div>
                     <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                    <% if (id != null) { %>
-                    <a href="${pageContext.request.contextPath}/pdelete?id=<%=post.getId()%>" class="btn btn-danger">Удалить</a>
-                    <% } %>
+                        <label>Почта</label>
+                        <input type="text" class="form-control" name="email">
                     </div>
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
                 </form>
             </div>
         </div>

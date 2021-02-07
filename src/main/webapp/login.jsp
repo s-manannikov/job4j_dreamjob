@@ -34,10 +34,10 @@
                 <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.jsp">Добавить вакансию</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Добавить вакансию</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.jsp">Добавить кандидата</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
             </li>
         </ul>
     </div>
@@ -58,8 +58,12 @@
                         <input type="password" class="form-control" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary">Войти</button>
+                    <a href="${pageContext.request.contextPath}/reg.jsp" class="btn btn-primary">Регистрация</a>
                 </form>
             </div>
+            <%if (request.getAttribute("error") != null) {%>
+            <span style="color:#ff0000;"><b><%=request.getAttribute("error")%></b></span>
+                    <%}%>
         </div>
     </div>
 </div>
