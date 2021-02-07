@@ -22,6 +22,7 @@ public class DeleteCandidateServlet extends HttpServlet {
             File file = new File(folder + File.separator + candidate.getPhotoId());
             file.delete();
         }
+        req.setAttribute("user", req.getSession().getAttribute("user"));
         resp.sendRedirect("candidates.do");
     }
 }

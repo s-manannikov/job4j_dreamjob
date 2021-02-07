@@ -20,7 +20,7 @@
   <title>Работа мечты</title>
 </head>
 <body>
-<div class="container">
+<div class="container pt-3">
   <div class="row">
     <ul class="nav">
       <li class="nav-item">

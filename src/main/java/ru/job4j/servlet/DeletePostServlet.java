@@ -16,6 +16,7 @@ public class DeletePostServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         PsqlStore.instOf().deletePost(id);
+        req.setAttribute("user", req.getSession().getAttribute("user"));
         resp.sendRedirect("posts.do");
     }
 }
