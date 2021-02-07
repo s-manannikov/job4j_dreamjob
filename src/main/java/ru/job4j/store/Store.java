@@ -2,6 +2,7 @@ package ru.job4j.store;
 
 import ru.job4j.model.Candidate;
 import ru.job4j.model.Post;
+import ru.job4j.model.User;
 
 import java.util.Collection;
 
@@ -22,4 +23,10 @@ public interface Store {
     void deleteCandidate(int id);
 
     void deletePost(int id);
+
+    void saveUser(User user);
+
+    User findUserById(int id);
+
+    void deleteUser(int id);
 }

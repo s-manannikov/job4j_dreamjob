@@ -2,6 +2,7 @@ package ru.job4j.store;
 
 import ru.job4j.model.Candidate;
 import ru.job4j.model.Post;
+import ru.job4j.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -13,8 +14,10 @@ public class MemStore implements Store {
     private static final MemStore INST = new MemStore();
     private final Map<Integer, Post> posts = new ConcurrentHashMap<>();
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
+    private final Map<Integer, User> users = new ConcurrentHashMap<>();
     private final static AtomicInteger POST_ID = new AtomicInteger(4);
     private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(4);
+    private final static AtomicInteger USER_ID = new AtomicInteger();
 
     private MemStore() {
         posts.put(1, new Post(1, "Junior Java Job", "junior description", LocalDateTime.now()));
@@ -74,6 +77,26 @@ public class MemStore implements Store {
     public void deletePost(int id) {
         if (findPostById(id) != null) {
             posts.remove(id);
+        }
+    }
+
+    @Override
+    public void saveUser(User user) {
+        if (user.getId() == 0) {
+            user.setId(USER_ID.incrementAndGet());
+        }
+        users.put(user.getId(), user);
+    }
+
+    @Override
+    public User findUserById(int id) {
+        return users.get(id);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        if (findUserById(id) != null) {
+            users.remove(id);
         }
     }
 }
