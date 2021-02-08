@@ -104,4 +104,22 @@
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>CandidateEditServlet</servlet-name>
+        <servlet-class>ru.job4j.servlet.CandidateEditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CandidateEditServlet</servlet-name>
+        <url-pattern>/candidate/edit.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>PostEditServlet</servlet-name>
+        <servlet-class>ru.job4j.servlet.PostEditServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PostEditServlet</servlet-name>
+        <url-pattern>/post/edit.do</url-pattern>
+    </servlet-mapping>
+
 </web-app>
