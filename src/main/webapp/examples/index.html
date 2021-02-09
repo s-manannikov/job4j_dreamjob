@@ -30,6 +30,27 @@
                 return false;
             }
         }
+
+    function addRow() {
+        const name = $('#name').val();
+        const lastname = $('#lastname').val();
+        const genders = document.getElementsByName("gender");
+        const desc = $('#description').val();
+        $('#table tr:last').after('<tr><td>' + name + '</td>');
+        $('#table td:last').after('<td>' + lastname + '</td>');
+        if (genders[0].checked === true) {
+            $('#table td:last').after('<td>' + genders[0].value + '</td>');
+        } else {
+            $('#table td:last').after('<td>' + genders[1].value + '</td>');
+        }
+        $('#table td:last').after('<td>' + desc + '</td></tr>');
+    }
+
+    function validateAndAdd() {
+        if (validate() !== false) {
+            addRow();
+        }
+    }
     </script>
 </head>
 <body>
@@ -47,11 +68,11 @@
 
         <div class="form-group">
             <div>
-                <input type="radio" id="male" name="gender" value="male">
+                <input type="radio" id="male" name="gender" value="M">
                 <label for="male">Male</label>
             </div>
             <div>
-                <input type="radio" id="female" name="gender" value="female">
+                <input type="radio" id="female" name="gender" value="F">
                 <label for="female">Female</label>
             </div>
         </div>
@@ -60,11 +81,12 @@
             <input type="text" class="form-control" id="description">
         </div>
         <button type="submit" class="btn btn-default" onclick="return validate();">Submit</button>
+        <button type="reset" class="btn btn-default" onclick="validateAndAdd()">Add row</button>
     </form>
 </div>
 <div class="container">
     <h2>Table</h2>
-    <table class="table table-striped">
+    <table class="table table-striped" id="table">
         <thead>
         <tr>
             <th>Firstname</th>
