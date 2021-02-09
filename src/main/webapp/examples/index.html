@@ -7,6 +7,30 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            const name = $('#name').val();
+            const lastname = $('#lastname').val();
+            const desc = $('#description').val();
+            const genders = document.getElementsByName("gender");
+            if (name === '') {
+                alert('Please enter name!');
+                return false;
+            }
+            if (lastname === '') {
+                alert('Please enter last name!');
+                return false;
+            }
+            if (desc === '') {
+                alert('Please enter description!');
+                return false;
+            }
+            if ((genders[0].checked === false) && (genders[1].checked === false)) {
+                alert('Please enter gender!');
+                return false;
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -35,7 +59,7 @@
             <label for="description">Description:</label>
             <input type="text" class="form-control" id="description">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default" onclick="return validate();">Submit</button>
     </form>
 </div>
 <div class="container">
