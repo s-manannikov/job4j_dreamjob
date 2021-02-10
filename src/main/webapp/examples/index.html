@@ -9,24 +9,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
         function validate() {
+            const message = 'All fields are required!';
             const name = $('#name').val();
             const lastname = $('#lastname').val();
             const desc = $('#description').val();
             const genders = document.getElementsByName("gender");
-            if (name === '') {
-                alert('Please enter name!');
-                return false;
-            }
-            if (lastname === '') {
-                alert('Please enter last name!');
-                return false;
-            }
-            if (desc === '') {
-                alert('Please enter description!');
+            if ((name === '') || (lastname === '') || (desc === '')) {
+                alert(message);
                 return false;
             }
             if ((genders[0].checked === false) && (genders[1].checked === false)) {
-                alert('Please enter gender!');
+                alert(message);
                 return false;
             }
         }
