@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
 @PrepareForTest(PsqlStore.class)
 public class PostServletTest {
 
-    @Ignore
     @Test
     public void whenAddPost() throws ServletException, IOException {
         MemStore store = MemStore.instOf();
