@@ -16,9 +16,9 @@
             type: 'GET',
             url: 'http://localhost:8080/dreamjob/greet',
             data: 'name=' + $('#exampleInputEmail1').val(),
-            dataType: 'text'
+            dataType: 'json'
         }).done(function(data) {
-            $('#email').before(`<p>` + data + `</p>`);
+            $('#email').before(`<p>` + JSON.stringify(data) + `</p>`);
         }).fail(function(err){
             alert(err);
         });
