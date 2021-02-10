@@ -122,4 +122,14 @@
         <url-pattern>/post/edit.do</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>GreetingServlet</servlet-name>
+        <servlet-class>ru.job4j.servlet.GreetingServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GreetingServlet</servlet-name>
+        <url-pattern>/greet</url-pattern>
+    </servlet-mapping>
+
 </web-app>
