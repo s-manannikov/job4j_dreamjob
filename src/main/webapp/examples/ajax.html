@@ -13,9 +13,10 @@
 <script>
     function sendGreeting() {
         $.ajax({
-            type: 'GET',
+            type: 'POST',
             url: 'http://localhost:8080/dreamjob/greet',
-            data: 'name=' + $('#exampleInputEmail1').val(),
+            data: 'name : ' + $('#exampleInputEmail1').val(),
+            contentType: "application/json; charset=utf-8",
             dataType: 'json'
         }).done(function(data) {
             $('#email').before(`<p>` + JSON.stringify(data) + `</p>`);
