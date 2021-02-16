@@ -1,6 +1,4 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="ru.job4j.model.Candidate" %>
-<%@ page import="ru.job4j.store.PsqlStore" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!doctype html>
@@ -20,7 +18,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Работа мечты</title>
+    <title>Dream Job</title>
 </head>
 <body>
 <div class="container pt-3">
@@ -28,16 +26,16 @@
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Main</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Добавить вакансию</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Add job</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Add candidate</a>
             </li>
         </ul>
     </div>
@@ -45,20 +43,20 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Авторизация
+                Authorization
             </div>
             <div class="card-body">
                 <form action="<%=request.getContextPath()%>/auth.do" method="post">
                     <div class="form-group">
-                        <label>Почта</label>
+                        <label>Email</label>
                         <input type="text" class="form-control" name="email">
                     </div>
                     <div class="form-group">
-                        <label>Пароль</label>
+                        <label>Password</label>
                         <input type="password" class="form-control" name="password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Войти</button>
-                    <a href="${pageContext.request.contextPath}/reg.jsp" class="btn btn-primary">Регистрация</a>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <a href="${pageContext.request.contextPath}/reg.jsp" class="btn btn-primary">Sign up</a>
                 </form>
             </div>
             <%if (request.getAttribute("error") != null) {%>

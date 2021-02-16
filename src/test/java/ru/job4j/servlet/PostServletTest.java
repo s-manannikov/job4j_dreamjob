@@ -1,6 +1,5 @@
 package ru.job4j.servlet;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;

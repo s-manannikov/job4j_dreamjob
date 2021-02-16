@@ -5,7 +5,6 @@ import ru.job4j.model.City;
 import ru.job4j.model.Post;
 import ru.job4j.model.User;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +21,9 @@ public class MemStore implements Store {
     private final static AtomicInteger USER_ID = new AtomicInteger();
 
     private MemStore() {
-        posts.put(1, new Post(1, "Junior Java Job", "junior description", LocalDateTime.now()));
-        posts.put(2, new Post(2, "Middle Java Job", "middle description", LocalDateTime.now()));
-        posts.put(3, new Post(3, "Senior Java Job", "senior description", LocalDateTime.now()));
+        posts.put(1, new Post(1, "Junior Java Job", "junior description"));
+        posts.put(2, new Post(2, "Middle Java Job", "middle description"));
+        posts.put(3, new Post(3, "Senior Java Job", "senior description"));
         candidates.put(1, new Candidate(1, "Junior Java"));
         candidates.put(2, new Candidate(2, "Middle Java"));
         candidates.put(3, new Candidate(3, "Senior Java"));

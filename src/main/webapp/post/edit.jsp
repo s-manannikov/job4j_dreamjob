@@ -63,7 +63,7 @@
     </div>
 <%
     String id = request.getParameter("id");
-    Post post = new Post(0, "");
+    Post post = new Post(0, "", "");
     if (id != null) {
         post = PsqlStore.instOf().findPostById(Integer.parseInt(id));
     }
@@ -82,6 +82,10 @@
                     <div class="form-group">
                         <label>Job name</label>
                         <input type="text" class="form-control" name="name" id="name" value="<%=post.getName()%>">
+                    </div>
+                    <div class="form-group">
+                        <label>Job description</label>
+                        <input type="text" class="form-control" name="desc" id="desc" value="<%=post.getDescription()%>">
                     </div>
                     <div class="form-group">
                     <button type="submit" class="btn btn-primary" onclick="return validate()">Save</button>

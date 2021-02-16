@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -60,7 +61,12 @@ public class PsqlStore implements Store {
         ) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
-                    posts.add(new Post(it.getInt("id"), it.getString("name")));
+                    posts.add(new Post(
+                            it.getInt("id"),
+                            it.getString("name"),
+                            it.getString("description"),
+                            it.getTimestamp("created").toLocalDateTime()
+                    ));
                 }
             }
         } catch (Exception e) {
@@ -111,13 +117,15 @@ public class PsqlStore implements Store {
         }
     }
 
-    private Post createPost(Post post) {
+    private void createPost(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "insert into post(name) values (?)",
+                     "insert into post(name, description, created) values (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, post.getName());
+            ps.setString(2, post.getDescription());
+            ps.setTimestamp(3, Timestamp.valueOf(post.getCreated()));
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -127,10 +135,9 @@ public class PsqlStore implements Store {
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
-        return post;
     }
 
-    private Candidate createCandidate(Candidate candidate) {
+    private void createCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
                      "insert into candidate(name, photoId, cityId) values (?, ?, ?)",
@@ -148,15 +155,16 @@ public class PsqlStore implements Store {
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
-        return candidate;
     }
 
     private void updatePost(Post post) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "update post set name = ? where id = ?")) {
+                     "update post set name = ?, description = ?, created = ? where id = ?")) {
             ps.setString(1, post.getName());
-            ps.setInt(2, post.getId());
+            ps.setString(2, post.getDescription());
+            ps.setTimestamp(3, Timestamp.valueOf(post.getCreated()));
+            ps.setInt(4, post.getId());
             ps.execute();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -189,6 +197,7 @@ public class PsqlStore implements Store {
                 if (resultSet.next()) {
                     post.setId(resultSet.getInt("id"));
                     post.setName(resultSet.getString("name"));
+                    post.setDescription(resultSet.getString("description"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

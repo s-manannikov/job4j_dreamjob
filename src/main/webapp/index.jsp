@@ -18,30 +18,30 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
           integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-  <title>Работа мечты</title>
+  <title>Dream Job</title>
 </head>
 <body>
 <div class="container pt-3">
   <div class="row">
     <ul class="nav">
       <li class="nav-item">
-        <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+        <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Jobs</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+        <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Добавить вакансию</a>
+        <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Add job</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
+        <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Add candidate</a>
       </li>
       <li class="nav-item">
         <%if (request.getSession().getAttribute("user") == null) {%>
         <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">
-          Войти
+          Login
           <%} else {%>
-          <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Выйти
+          <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Logout
           <% } %>
         </a>
       </li>
@@ -50,7 +50,7 @@
   <div class="row">
     <div class="card" style="width: 100%">
       <div class="card-header">
-        Сегодняшние вакансии.
+        Today's jobs
       </div>
       <div class="card-body">
       </div>
@@ -59,7 +59,7 @@
   <div class="row pt-3">
     <div class="card" style="width: 100%">
       <div class="card-header">
-        Сегодняшние кандидаты.
+        Today's candidates
       </div>
       <div class="card-body">
       </div>

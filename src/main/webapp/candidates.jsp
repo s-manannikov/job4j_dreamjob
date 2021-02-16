@@ -61,12 +61,23 @@
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Names</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">City</th>
+                        <th scope="col">Photo</th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${candidates}" var="candidate">
-                    <tr class="row">
+                    <tr>
+                        <td>
+                            <div><a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
+                                <i class="fa fa-edit mr-3"></i>
+                            </a>
+                                <c:out value="${candidate.name}"/></div>
+                        </td>
+                        <td>
+                            <div><c:out value="${PsqlStore.instOf().findCityById(candidate.cityId).getName()}"/></div>
+                        </td>
                         <td>
                             <a href="<c:url value='/download?name=${candidate.photoId}'/>">
                                 <img src='<c:url value="/download?name=${candidate.photoId}"/>'
@@ -75,13 +86,6 @@
                                      alt="${candidate.name}"
                                      title="${candidate.name}"/>
                             </a>
-                        </td>
-                        <td>
-                            <div><a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
-                                <i class="fa fa-edit mr-3"></i>
-                            </a>
-                            <c:out value="${candidate.name}"/></div>
-                            <div><span style="font-size: small; font-weight: bolder">City: <c:out value="${PsqlStore.instOf().findCityById(candidate.cityId).getName()}"/></span></div>
                         </td>
                     </tr>
                     </c:forEach>

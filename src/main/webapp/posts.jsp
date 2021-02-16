@@ -1,3 +1,4 @@
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
@@ -19,7 +20,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Работа мечты</title>
+    <title>Dream Job</title>
 </head>
 <body>
 <div class="container pt-3">
@@ -27,23 +28,23 @@
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Main</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Добавить вакансию</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Add job</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Add candidate</a>
             </li>
             <li class="nav-item">
                 <%if (request.getSession().getAttribute("user") == null) {%>
                 <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">
-                    Войти
+                    Login
                         <%} else {%>
-                    <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Выйти
+                    <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Logout
                         <% } %>
                     </a>
             </li>
@@ -53,13 +54,15 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Вакансии
+                Jobs
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Названия</th>
+                        <th scope="col">Job</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Date</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,7 +78,8 @@
                             <c:out value="${post.description}"/>
                         </td>
                         <td>
-                            <c:out value="${post.created}"/>
+                            posted <c:out value="${post.created.format(DateTimeFormatter.ofPattern(\"dd-MM-yy HH:mm\"))}"/>
+
                         </td>
                     </tr>
                     </c:forEach>
