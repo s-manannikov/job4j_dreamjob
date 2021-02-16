@@ -86,6 +86,15 @@
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
 
+    <filter>
+        <filter-name>CORSFilter</filter-name>
+        <filter-class>ru.job4j.filter.CORSFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CORSFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>RegServlet</servlet-name>
         <servlet-class>ru.job4j.servlet.RegServlet</servlet-class>
