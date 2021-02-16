@@ -5,6 +5,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.model.Candidate;
+import ru.job4j.model.City;
 import ru.job4j.model.Post;
 import ru.job4j.model.User;
 
@@ -80,7 +81,8 @@ public class PsqlStore implements Store {
                             new Candidate(
                                     it.getInt("id"),
                                     it.getString("name"),
-                                    it.getString("photoId")
+                                    it.getString("photoId"),
+                                    it.getInt("cityId")
                             )
                     );
                 }
@@ -131,11 +133,12 @@ public class PsqlStore implements Store {
     private Candidate createCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "insert into candidate(name, photoId) values (?, ?)",
+                     "insert into candidate(name, photoId, cityId) values (?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getPhotoId());
+            ps.setInt(3, candidate.getCityId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -163,10 +166,11 @@ public class PsqlStore implements Store {
     private void updateCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps = cn.prepareStatement(
-                     "update candidate set name = ?, photoid = ? where id = ?")) {
+                     "update candidate set name = ?, photoid = ?, cityid = ? where id = ?")) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getPhotoId());
-            ps.setInt(3, candidate.getId());
+            ps.setInt(3, candidate.getCityId());
+            ps.setInt(4, candidate.getId());
             ps.execute();
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -313,5 +317,42 @@ public class PsqlStore implements Store {
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
         }
+    }
+
+    public Collection<City> findAllCities() {
+        List<City> cities = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement("select * from city")
+        ) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    cities.add(new City(it.getInt("id"), it.getString("name")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return cities;
+    }
+
+    public City findCityById(int id) {
+        City city = new City();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement = cn.prepareStatement(
+                     "select * from city where id = ?"
+             )) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    city.setId(resultSet.getInt("id"));
+                    city.setName(resultSet.getString("name"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            LOG.error("City not found", e);
+        }
+        return city.getId() != 0 ? city : null;
     }
 }

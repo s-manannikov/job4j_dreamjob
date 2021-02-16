@@ -55,6 +55,9 @@ public class CandidateServlet extends HttpServlet {
                         candidate.setName(item.getString());
                         candidate.setPhotoId("default.png");
                     }
+                    if (item.getFieldName().equals("city")) {
+                        candidate.setCityId(Integer.parseInt(item.getString()));
+                    }
                 }
             }
         } catch (FileUploadException e) {

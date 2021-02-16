@@ -1,6 +1,7 @@
 package ru.job4j.store;
 
 import ru.job4j.model.Candidate;
+import ru.job4j.model.City;
 import ru.job4j.model.Post;
 import ru.job4j.model.User;
 
@@ -29,4 +30,8 @@ public interface Store {
     User findUserByEmail(String email);
 
     void deleteUser(int id);
+
+    Collection<City> findAllCities();
+
+    City findCityById(int id);
 }

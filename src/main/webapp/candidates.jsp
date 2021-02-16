@@ -1,3 +1,4 @@
+<%@ page import="ru.job4j.store.PsqlStore" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
@@ -19,7 +20,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Работа мечты</title>
+    <title>Dream Job</title>
 </head>
 <body>
 <div class="container pt-3">
@@ -27,23 +28,23 @@
         <div class="row">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Main</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Jobs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Добавить вакансию</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Add job</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
+                    <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Add candidate</a>
                 </li>
                 <li class="nav-item">
                     <%if (request.getSession().getAttribute("user") == null) {%>
                     <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">
-                        Войти
+                        Login
                             <%} else {%>
-                        <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Выйти
+                        <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Logout
                             <% } %>
                         </a>
                 </li>
@@ -54,13 +55,13 @@
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header">
-                Кандидаты
+                Candidates
             </div>
             <div class="card-body">
                 <table class="table">
                     <thead>
                     <tr>
-                        <th scope="col">Имена</th>
+                        <th scope="col">Names</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -76,10 +77,11 @@
                             </a>
                         </td>
                         <td>
-                            <a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
+                            <div><a href='<c:url value="/candidate/edit.jsp?id=${candidate.id}"/>'>
                                 <i class="fa fa-edit mr-3"></i>
                             </a>
-                            <c:out value="${candidate.name}"/>
+                            <c:out value="${candidate.name}"/></div>
+                            <div><span style="font-size: small; font-weight: bolder">City: <c:out value="${PsqlStore.instOf().findCityById(candidate.cityId).getName()}"/></span></div>
                         </td>
                     </tr>
                     </c:forEach>

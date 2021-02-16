@@ -1,11 +1,13 @@
 package ru.job4j.store;
 
 import ru.job4j.model.Candidate;
+import ru.job4j.model.City;
 import ru.job4j.model.Post;
 import ru.job4j.model.User;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -85,5 +87,15 @@ public class MemStore implements Store {
 
     @Override
     public void deleteUser(int id) {
+    }
+
+    @Override
+    public List<City> findAllCities() {
+        return null;
+    }
+
+    @Override
+    public City findCityById(int id) {
+        return null;
     }
 }

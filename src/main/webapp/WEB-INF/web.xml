@@ -126,10 +126,18 @@
         <servlet-name>GreetingServlet</servlet-name>
         <servlet-class>ru.job4j.servlet.GreetingServlet</servlet-class>
     </servlet>
-
     <servlet-mapping>
         <servlet-name>GreetingServlet</servlet-name>
         <url-pattern>/greet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CityServlet</servlet-name>
+        <servlet-class>ru.job4j.servlet.CityServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CityServlet</servlet-name>
+        <url-pattern>/city</url-pattern>
     </servlet-mapping>
 
 </web-app>

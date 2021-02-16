@@ -20,30 +20,42 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-    <title>Работа мечты</title>
+    <title>Dream Job</title>
+
+    <script>
+        function validate() {
+            const message = 'Please enter the name!';
+            const name = $('#name').val();
+            if (name === '') {
+                alert(message);
+                return false;
+            }
+        }
+    </script>
+
 </head>
 <body>
 <div class="container pt-3">
     <div class="row">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Main</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Jobs</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Добавить кандидата</a>
+                <a class="nav-link" href="<%=request.getContextPath()%>/candidate/edit.do">Add candidate</a>
             </li>
             <li class="nav-item">
                 <%if (request.getSession().getAttribute("user") == null) {%>
                 <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">
-                    Войти
+                    Login
                         <%} else {%>
-                    <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Выйти
+                    <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Logout
                         <% } %>
                     </a>
             </li>
@@ -60,21 +72,21 @@
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <% if (id == null) { %>
-                Новая вакансия.
+                New Job
                 <% } else { %>
-                Редактирование вакансии.
+                Edit Job
                 <% } %>
             </div>
             <div class="card-body">
                 <form action="<%=request.getContextPath()%>/posts.do?id=<%=post.getId()%>" method="post">
                     <div class="form-group">
-                        <label>Название</label>
-                        <input type="text" class="form-control" name="name" value="<%=post.getName()%>">
+                        <label>Job name</label>
+                        <input type="text" class="form-control" name="name" id="name" value="<%=post.getName()%>">
                     </div>
                     <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate()">Save</button>
                     <% if (id != null) { %>
-                    <a href="${pageContext.request.contextPath}/pdelete?id=<%=post.getId()%>" class="btn btn-danger">Удалить</a>
+                    <a href="${pageContext.request.contextPath}/pdelete?id=<%=post.getId()%>" class="btn btn-danger">Delete</a>
                     <% } %>
                     </div>
                 </form>

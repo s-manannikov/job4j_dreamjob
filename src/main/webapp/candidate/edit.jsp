@@ -19,31 +19,58 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-    <title>Работа мечты</title>
+    <title>Dream Job</title>
+
+    <script>
+        function validate() {
+            const nameMessage = 'Please enter the name!';
+            const cityMessage = 'Please choose the city!';
+            const name = $('#name').val();
+            if (name === '') {
+                alert(nameMessage);
+                return false;
+            }
+            if (document.form1.city.value === "") {
+                alert(cityMessage);
+                return false;
+            }
+        }
+
+        $(document).ready(function getCities() {
+            $.ajax({
+                type: 'GET',
+                url: 'http://localhost:8080/dreamjob/city',
+            }).done(function(data) {
+                $("#city").html(data)
+            });
+        });
+    </script>
+
 </head>
 <body>
 <div class="container pt-3">
 <div class="row">
     <ul class="nav">
         <li class="nav-item">
-            <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Главная</a>
+            <a class="nav-link" href="<%=request.getContextPath()%>/index.do">Main</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Вакансии</a>
+            <a class="nav-link" href="<%=request.getContextPath()%>/posts.do">Jobs</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Кандидаты</a>
+            <a class="nav-link" href="<%=request.getContextPath()%>/candidates.do">Candidates</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Добавить вакансию</a>
+            <a class="nav-link" href="<%=request.getContextPath()%>/post/edit.do">Add job</a>
         </li>
         <li class="nav-item">
             <%if (request.getSession().getAttribute("user") == null) {%>
             <a class="nav-link" href="<%=request.getContextPath()%>/login.jsp">
-                Войти
+                Login
                     <%} else {%>
-                <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Выйти
+                <a class="nav-link" href="<%=request.getContextPath()%>/logout"><c:out value="${user.name}"/> | Logout
                     <% } %>
                 </a>
         </li>
@@ -60,25 +87,29 @@
         <div class="card" style="width: 100%">
             <div class="card-header">
                 <% if (id == null) { %>
-                Новый кандидат.
+                New candidate
                 <% } else { %>
-                Редактирование кандидата.
+                Edit candidate
                 <% } %>
             </div>
             <div class="card-body">
-                <form action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>" method="post" enctype="multipart/form-data">
+                <form name="form1" action="<%=request.getContextPath()%>/candidates.do?id=<%=candidate.getId()%>" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label>Имя</label>
-                        <input type="text" class="form-control" name="name" value="<%=candidate.getName()%>">
+                        <label>Name</label>
+                        <input type="text" class="form-control" name="name" id="name" value="<%=candidate.getName()%>">
                     </div>
-                    Фото
+                    <div class="form-group">
+                        <label>City</label>
+                        <select name="city" id="city" class="form-control" size="1"></select>
+                    </div>
+                    Photo
                     <div class="form-group">
                         <input type="file" name="photo">
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                        <button type="submit" class="btn btn-primary" onclick="return validate()">Save</button>
                         <% if (id != null) { %>
-                        <a href="${pageContext.request.contextPath}/cdelete?id=<%=candidate.getId()%>" class="btn btn-danger">Удалить</a>
+                        <a href="${pageContext.request.contextPath}/cdelete?id=<%=candidate.getId()%>" class="btn btn-danger">Delete</a>
                         <% } %>
                     </div>
                 </form>

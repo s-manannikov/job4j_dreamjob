@@ -6,11 +6,13 @@ public class Candidate {
     private int id;
     private String name;
     private String photoId;
+    private int cityId;
 
-    public Candidate(int id, String name, String photoId) {
+    public Candidate(int id, String name, String photoId, int cityId) {
         this.id = id;
         this.name = name;
         this.photoId = photoId;
+        this.cityId = cityId;
     }
 
     public Candidate(int id, String name) {
@@ -37,6 +39,14 @@ public class Candidate {
         this.name = name;
     }
 
+    public int getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(int cityId) {
+        this.cityId = cityId;
+    }
+
     public String getPhotoId() {
         return photoId;
     }
@@ -54,11 +64,11 @@ public class Candidate {
             return false;
         }
         Candidate candidate = (Candidate) o;
-        return id == candidate.id && photoId == candidate.photoId && Objects.equals(name, candidate.name);
+        return id == candidate.id && cityId == candidate.cityId && Objects.equals(name, candidate.name) && Objects.equals(photoId, candidate.photoId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, photoId);
+        return Objects.hash(id, name, photoId, cityId);
     }
 }
