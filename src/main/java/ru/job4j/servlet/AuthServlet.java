@@ -22,7 +22,7 @@ public class AuthServlet extends HttpServlet {
             sc.setAttribute("user", user);
             resp.sendRedirect(req.getContextPath() + "/posts.do");
         } else {
-            req.setAttribute("error", "Неверный email или пароль");
+            req.setAttribute("error", "Wrong email or password!");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         }
     }
