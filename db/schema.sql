@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS post (
 CREATE TABLE IF NOT EXISTS candidate (
     id SERIAL PRIMARY KEY,
     name TEXT,
-    photoId TEXT,
+    photoId INTEGER REFERENCES photo(id),
     cityId INTEGER
 );
 
@@ -22,4 +22,9 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS city (
     id SERIAL PRIMARY KEY,
     name TEXT
+);
+
+CREATE TABLE IF NOT EXISTS photo (
+    id SERIAL PRIMARY KEY,
+    picture BYTEA
 );

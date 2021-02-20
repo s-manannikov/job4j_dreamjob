@@ -1,11 +1,12 @@
 package ru.job4j.servlet;
 
+import ru.job4j.store.PsqlStore;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 public class DownloadServlet extends HttpServlet {
@@ -15,8 +16,8 @@ public class DownloadServlet extends HttpServlet {
         resp.setContentType("name=" + name);
         resp.setContentType("image/png; image/jpeg");
         resp.setHeader("Content-Disposition", "attachment; filename=\"" + name + "\"");
-        File file = new File("images" + File.separator + name);
-        try (FileInputStream in = new FileInputStream(file)) {
+        byte[] picture = PsqlStore.instOf().findPhotoById(Integer.parseInt(name)).getPicture();
+        try (ByteArrayInputStream in = new ByteArrayInputStream(picture)) {
             resp.getOutputStream().write(in.readAllBytes());
         }
     }

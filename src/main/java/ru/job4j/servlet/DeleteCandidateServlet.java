@@ -7,7 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 
 public class DeleteCandidateServlet extends HttpServlet {
@@ -17,11 +16,7 @@ public class DeleteCandidateServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         Candidate candidate = PsqlStore.instOf().findCandidateById(id);
         PsqlStore.instOf().deleteCandidate(candidate.getId());
-        if (!candidate.getPhotoId().equals("default.png")) {
-            File folder = new File("images");
-            File file = new File(folder + File.separator + candidate.getPhotoId());
-            file.delete();
-        }
+        PsqlStore.instOf().deletePhoto(candidate.getPhotoId());
         req.setAttribute("user", req.getSession().getAttribute("user"));
         resp.sendRedirect("candidates.do");
     }

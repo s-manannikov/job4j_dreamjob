@@ -1,9 +1,6 @@
 package ru.job4j.store;
 
-import ru.job4j.model.Candidate;
-import ru.job4j.model.City;
-import ru.job4j.model.Post;
-import ru.job4j.model.User;
+import ru.job4j.model.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -96,5 +93,20 @@ public class MemStore implements Store {
     @Override
     public City findCityById(int id) {
         return null;
+    }
+
+    @Override
+    public Photo savePhoto(Photo photo) {
+        return null;
+    }
+
+    @Override
+    public Photo findPhotoById(int id) {
+        return null;
+    }
+
+    @Override
+    public void deletePhoto(int id) {
+
     }
 }

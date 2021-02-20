@@ -1,9 +1,6 @@
 package ru.job4j.store;
 
-import ru.job4j.model.Candidate;
-import ru.job4j.model.City;
-import ru.job4j.model.Post;
-import ru.job4j.model.User;
+import ru.job4j.model.*;
 
 import java.util.Collection;
 
@@ -34,4 +31,10 @@ public interface Store {
     Collection<City> findAllCities();
 
     City findCityById(int id);
+
+    Photo savePhoto(Photo photo);
+
+    Photo findPhotoById(int id);
+
+    void deletePhoto(int id);
 }

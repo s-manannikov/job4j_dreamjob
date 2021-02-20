@@ -4,10 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.model.Candidate;
-import ru.job4j.model.City;
-import ru.job4j.model.Post;
-import ru.job4j.model.User;
+import ru.job4j.model.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -87,7 +84,7 @@ public class PsqlStore implements Store {
                             new Candidate(
                                     it.getInt("id"),
                                     it.getString("name"),
-                                    it.getString("photoId"),
+                                    it.getInt("photoId"),
                                     it.getInt("cityId")
                             )
                     );
@@ -144,7 +141,7 @@ public class PsqlStore implements Store {
                      PreparedStatement.RETURN_GENERATED_KEYS)
         ) {
             ps.setString(1, candidate.getName());
-            ps.setString(2, candidate.getPhotoId());
+            ps.setInt(2, candidate.getPhotoId());
             ps.setInt(3, candidate.getCityId());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
@@ -176,7 +173,7 @@ public class PsqlStore implements Store {
              PreparedStatement ps = cn.prepareStatement(
                      "update candidate set name = ?, photoid = ?, cityid = ? where id = ?")) {
             ps.setString(1, candidate.getName());
-            ps.setString(2, candidate.getPhotoId());
+            ps.setInt(2, candidate.getPhotoId());
             ps.setInt(3, candidate.getCityId());
             ps.setInt(4, candidate.getId());
             ps.execute();
@@ -219,7 +216,7 @@ public class PsqlStore implements Store {
                 if (resultSet.next()) {
                     candidate.setId(resultSet.getInt("id"));
                     candidate.setName(resultSet.getString("name"));
-                    candidate.setPhotoId(resultSet.getString("photoId"));
+                    candidate.setPhotoId(resultSet.getInt("photoId"));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -363,5 +360,73 @@ public class PsqlStore implements Store {
             LOG.error("City not found", e);
         }
         return city.getId() != 0 ? city : null;
+    }
+
+    public Photo savePhoto(Photo photo) {
+        return photo.getId() == 0 ? createPhoto(photo) : updatePhoto(photo);
+    }
+
+    public Photo findPhotoById(int id) {
+        Photo photo = new Photo();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement statement = cn.prepareStatement(
+                     "select * from photo where id = ?"
+             )) {
+            statement.setInt(1, id);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    photo.setId(resultSet.getInt("id"));
+                    photo.setPicture(resultSet.getBytes("picture"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            LOG.error("Photo not found", e);
+        }
+        return photo.getId() != 0 ? photo : null;
+    }
+
+    public void deletePhoto(int id) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "delete from photo where id = ?")) {
+            ps.setInt(1, id);
+            ps.execute();
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+    }
+
+    private Photo createPhoto(Photo photo) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "insert into photo(picture) values (?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)
+        ) {
+            ps.setBytes(1, photo.getPicture());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    photo.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return photo;
+    }
+
+    private Photo updatePhoto(Photo photo) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps = cn.prepareStatement(
+                     "update photo set picture = ? where id = ?")) {
+            ps.setBytes(1, photo.getPicture());
+            ps.setInt(2, photo.getId());
+            ps.execute();
+        } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
+        }
+        return photo;
     }
 }

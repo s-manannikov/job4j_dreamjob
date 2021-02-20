@@ -5,10 +5,10 @@ import java.util.Objects;
 public class Candidate {
     private int id;
     private String name;
-    private String photoId;
+    private int photoId;
     private int cityId;
 
-    public Candidate(int id, String name, String photoId, int cityId) {
+    public Candidate(int id, String name, int photoId, int cityId) {
         this.id = id;
         this.name = name;
         this.photoId = photoId;
@@ -47,11 +47,11 @@ public class Candidate {
         this.cityId = cityId;
     }
 
-    public String getPhotoId() {
+    public int getPhotoId() {
         return photoId;
     }
 
-    public void setPhotoId(String photoId) {
+    public void setPhotoId(int photoId) {
         this.photoId = photoId;
     }
 
@@ -64,7 +64,10 @@ public class Candidate {
             return false;
         }
         Candidate candidate = (Candidate) o;
-        return id == candidate.id && cityId == candidate.cityId && Objects.equals(name, candidate.name) && Objects.equals(photoId, candidate.photoId);
+        return id == candidate.id
+                && photoId == candidate.photoId
+                && cityId == candidate.cityId
+                && Objects.equals(name, candidate.name);
     }
 
     @Override

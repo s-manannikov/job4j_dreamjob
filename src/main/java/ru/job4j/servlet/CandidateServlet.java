@@ -5,6 +5,7 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import ru.job4j.model.Candidate;
+import ru.job4j.model.Photo;
 import ru.job4j.store.PsqlStore;
 
 import javax.servlet.ServletContext;
@@ -13,10 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 
 public class CandidateServlet extends HttpServlet {
 
@@ -30,6 +29,7 @@ public class CandidateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         Candidate candidate = new Candidate();
+        Photo photo = new Photo();
         req.setCharacterEncoding("UTF-8");
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletContext servletContext = this.getServletConfig().getServletContext();
@@ -44,16 +44,11 @@ public class CandidateServlet extends HttpServlet {
             }
             for (FileItem item : items) {
                 if (!item.isFormField() && !item.getName().isEmpty()) {
-                    String photoName = UUID.randomUUID() + item.getName();
-                    File file = new File(folder + File.separator + photoName);
-                    try (FileOutputStream out = new FileOutputStream(file)) {
-                        out.write(item.getInputStream().readAllBytes());
-                    }
-                    candidate.setPhotoId(photoName);
+                    byte[] picture = item.getInputStream().readAllBytes();
+                    photo.setPicture(picture);
                 } else {
                     if (item.getFieldName().equals("name")) {
                         candidate.setName(item.getString());
-                        candidate.setPhotoId("default.png");
                     }
                     if (item.getFieldName().equals("city")) {
                         candidate.setCityId(Integer.parseInt(item.getString()));
@@ -64,6 +59,7 @@ public class CandidateServlet extends HttpServlet {
             e.printStackTrace();
         }
         candidate.setId(Integer.parseInt(req.getParameter("id")));
+        candidate.setPhotoId(PsqlStore.instOf().savePhoto(photo).getId());
         PsqlStore.instOf().saveCandidate(candidate);
         resp.sendRedirect(req.getContextPath() + "/candidates.do");
     }
